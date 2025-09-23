@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de veículos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+
+    <nav class="bg-[#2563EB] p-3">
+        <div class="container mx-auto">
+            <ul class="flex space-x-4 items-center justify-between">
+                <h2 class="text-white font-bold text-[20px]">Sistema de Controle de Veículos</h2>
+                <div class="flex justify-end gap-4">
+                    <div
+                        class="h-10 w-40 bg-[#1D4ED8] rounded-lg flex items-center justify-center cursor-pointer gap-2 group hover:bg-[#00185B] ">
+                        <i class="fa fa-user text-white" aria-hidden="true"></i>
+                        <li><a href="#" class="text-white group-hover:font-bold">Novo Motorista</a></li>
+                    </div>
+                    <div
+                        class="h-10 w-40 bg-[#1D4ED8] rounded-lg flex items-center justify-center cursor-pointer gap-2 group hover:bg-[#00185B]">
+                        <i class="fa fa-car text-white" aria-hidden="true"></i>
+                        <li><a href="#" class="text-white group-hover:font-bold">Novo Veículo</a></li>
+                    </div>
+                    <div
+                        class="h-10 w-40 bg-[#16A34A] rounded-lg flex items-center justify-center cursor-pointer gap-2 group hover:bg-[#014D1D]">
+                        <i class="fa fa-pencil text-white" aria-hidden="true"></i>
+                        <li><a href="#" class="text-white group-hover:font-bold">Registrar Uso</a></li>
+                    </div>
+                </div>
+            </ul>
+        </div>
+    </nav>
+    <body>
+        <div class="p-10">
+            <table class="table-auto w-full">
+                <thead>
+                    <tr class="border rounded-t-lg">
+                        <th colspan="12" class="text-2xl font-bold mb-4 px-4 rounded-t-lg">Lista de Veículos</th>
+                    </tr>
+                    <tr>
+                        <th class="border px-4 py-2 col-span-2">Placa</th>
+                        <th class="border px-4 py-2 col-span-2">Modelo</th>
+                        <th class="border px-4 py-2 col-span-2">Ano</th>
+                        <th class="border px-4 py-2 col-span-2">Status</th>
+                        <th class="border px-4 py-2 col-span-3">Motorista</th>
+                        <th class="border px-2 py-2 col-span-1">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- {% for uso in usos %}
+                    <tr>
+                        <td class="border px-4 py-2">{{ uso.placa }}</td>
+                        <td class="border px-4 py-2">{{ uso.veiculo.modelo }} - {{ uso.veiculo.placa }}</td>
+                        <td class="border px-4 py-2">{{ uso.data_uso }}</td>
+                        <td class="border px-4 py-2">{{ uso.finalidade }}</td>
+                    </tr>
+                    {% endfor %} -->
+                    <tr>
+                        <td class="border px-4 py-2 col-span-2">ABC-1234</td>
+                        <td class="border px-4 py-2 col-span-2">Gol</td>
+                        <td class="border px-4 py-2 col-span-2">2020</td>
+                        <td class="border px-4 py-2 col-span-2">Disponível</td>
+                        <td class="border px-4 py-2 col-span-3">Erik Mendes</td>
+                        <td class="border px-4 py-2 col-span-1">Finalizar uso</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</body>
+
+</html>
