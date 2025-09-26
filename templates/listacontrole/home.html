@@ -69,14 +69,16 @@
                         <td class="border px-4 py-2">{{ uso.finalidade }}</td>
                     </tr>
                     {% endfor %} -->
+                    {% for uso in usos %}
                     <tr class="text-center">
-                        <td class="px-4 py-2 col-span-2">ABC-1234</td>
-                        <td class="px-4 py-2 col-span-2">Gol</td>
-                        <td class="px-4 py-2 col-span-2">2020</td>
-                        <td class="px-4 py-2 col-span-2">Disponível</td>
-                        <td class="px-4 py-2 col-span-3">Erik Mendes</td>
+                        <td class="px-4 py-2 col-span-2">{{ uso.placa }}</td>
+                        <td class="px-4 py-2 col-span-2">{{ uso.veiculo }}</td>
+                        <td class="px-4 py-2 col-span-2">{{ uso.data_uso }}</td>
+                        <td class="px-4 py-2 col-span-2">{{ uso.desino }}</td>
+                        <td class="px-4 py-2 col-span-3">{{ uso.motorista }}</td>
                         <td class="px-4 py-2 col-span-1"><button class="text-indigo-600 hover:text-indigo-900 bg-indigo-100 rounded-md px-4 py-2">Finalizar uso</button></td>
                     </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
@@ -122,18 +124,20 @@
                                             </tr>
                                         </thead>
                                         <tbody class="bg-white divide-y divide-gray-200">
+                                            {% for motorista in motoristas %}
                                             <tr>
                                                 <td class="px-6 py-4 whitespace-nowrap">
-                                                    Erik Mendes
+                                                    {{ motorista.nome }}
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap">
-                                                    123.456.789-00
+                                                    {{ motorista.cnh }}
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap">
                                                     <button class="text-indigo-600 hover:text-indigo-900">Editar</button>
                                                     <button class="text-red-600 hover:text-red-900">Excluir</button>
                                                 </td>
                                             </tr>
+                                            {% endfor %}
                                         </tbody>
                                     </table>
                                 </div>
@@ -177,7 +181,7 @@
                                         {{ form|crispy }}
                                         <div class="px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 flex justify-start">
                                             <button type="submit" class="inline-flex w-full justify-end rounded-md bg-[#2563EB] px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-blue-500 sm:ml-3 sm:w-auto" name="form1_submit">Cadastrar</button>
-                                            <button type="button" command="close" commandfor="RegistroUso" onclick="document.querySelector('#formmotorista').reset()" class="mt-3 inline-flex w-full justify-end rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Fechar</button>
+                                            <button type="button" command="close" commandfor="CadastroMotorista" onclick="document.querySelector('#formmotorista').reset()" class="mt-3 inline-flex w-full justify-end rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Fechar</button>
                                         </div>
                                     </form>
                                 </div>
@@ -207,43 +211,25 @@
                                 <i class="fa fa-car text-[#2563EB]" aria-hidden="true"></i>
                             </div>
                             <div class="mt-2 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-                                <h3 id="dialog-title" class="text-base font-semibold text-gray-900 mb-3">Adicione um novo veículo
-                                </h3>
+                                <div class="flex justify-between">
+                                    <h3 id="dialog-title" class="text-base font-semibold text-gray-900">Adicione um novo veículo
+                                    </h3>
+                                    <button type="button" command="close" commandfor="CadastroVeiculos"
+                                                    onclick="document.querySelector('#formveiculo').reset()"><i class="fa fa-close" aria-hidden="true"></i></button>
+                                </div>
                                 <div class="mt-2">
                                     <form action="" id="formveiculo" class="space-y-3" method="post">
                                         {% csrf_token %}
                                         {{ formveiculo|crispy }}
-                                        <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 flex justify-between ">
-                                            <div class="sm:flex sm:flex-row-reverse gap-1 flex justify-end">
-                                                <button type="submit" name="form2_submit" command="close" commandfor="CadastroVeiculos"
-                                                    class="inline-flex w-full justify-end rounded-md bg-[#2563EB] px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-blue-500 sm:ml-3 sm:w-auto">Cadastrar</button>
-                                                <button type="button" command="close" commandfor="CadastroVeiculos"
-                                                    onclick="document.querySelector('#formveiculo').reset()"
-                                                    class="mt-3 inline-flex w-full justify-end rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Fechar</button>
-                                            </div>
-                                            <div class="flex justify-start bg-red-600 rounded-md">
+                                                <button type="submit" name="form2_submit"
+                                                    class= "w-full justify-end rounded-md bg-[#2563EB] px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-blue-500">Cadastrar</button>
                                                 <button type="button" command="show-modal" commandfor="ListaVeiculos"
-                                                    class="inline-flex w-full rounded-md text-center py-2 px-2 text-sm text-white gap-1 shadow-xs inset-ring inset-ring-gray-300 hover:bg-red-500 sm:mt-0 sm:w-auto">Excluir
-                                                    veículo</button>
-                                            </div>
-                                        </div>
+                                                    class="bg-red-600 rounded-md w-full  text-center py-2 px-2 text-sm text-white gap-1 shadow-xs w-full text-center inset-ring inset-ring-gray-300 hover:bg-red-500">Excluir/Editar veículo</button>
                                     </form>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 flex justify-between">
-                        <div class="sm:flex sm:flex-row-reverse gap-1 flex justify-end">
-                            <button type="submit" name="form2_submit" command="close" commandfor="CadastroVeiculos"
-                                class="inline-flex w-full justify-end rounded-md bg-[#2563EB] px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-blue-500 sm:ml-3 sm:w-auto">Cadastrar</button>
-                            <button type="button" command="close" commandfor="CadastroVeiculos" onclick="document.querySelector('#formveiculo').reset()"
-                                class="mt-3 inline-flex w-full justify-end rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Fechar</button>
-                        </div>
-                        <div class="flex justify-start bg-red-600 rounded-md">
-                            <button type="button" command="show-modal" commandfor="ListaVeiculos"
-                            class="inline-flex w-full rounded-md text-center py-2 px-2 text-sm text-white gap-1 shadow-xs inset-ring inset-ring-gray-300 hover:bg-red-500 sm:mt-0 sm:w-auto">Excluir veículo</button>
-                        </div>
-                    </div> -->
                 </el-dialog-panel>
             </div>
         </dialog>
@@ -291,7 +277,7 @@
                                             </tr>
                                         </thead>
                                         <tbody class="bg-white divide-y divide-gray-200">
-                                            <tr>
+                                            <!-- <tr>
                                                 <td class="px-6 py-4 whitespace-nowrap">
                                                     Gol
                                                 </td>
@@ -311,8 +297,31 @@
                                                     <button class="text-indigo-600 hover:text-indigo-900">Editar</button>
                                                     <button class="text-red-600 hover:text-red-900">Excluir</button>
                                                 </td>
+                                            </tr> -->
+                                            {% for veiculo in veiculos %}
+                                            <tr>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    {{ veiculo.nome }}
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    {{ veiculo.marca }}
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    {{ veiculo.placa }}
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    {{ veiculo.ano }}
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    {{ veiculo.cor }}
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap gap-2">
+                                                    <button class="text-indigo-600 hover:text-indigo-900">Editar</button>
+                                                    <button class="text-red-600 hover:text-red-900">Excluir</button>
+                                                </td>
                                             </tr>
-                                            
+                                            {% endfor %}
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -353,17 +362,21 @@
                                     <form action="" id="formuso" class="space-y-3" method="post">
                                         {% csrf_token %}
                                         {{ formuso|crispy }}
+                                        <div class="px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 flex justify-start">
+                                            <button type="submit" name="form3_submit" class="inline-flex w-full justify-end rounded-md bg-[#2563EB] px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-blue-500 sm:ml-3 sm:w-auto">Registrar</button>
+                                            <button type="button" command="close" commandfor="RegistroUso" onclick="document.querySelector('#formuso').reset()" class="mt-3 inline-flex w-full justify-end rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Fechar</button>
+                                        </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 flex justify-between">
+                    <!-- <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 flex justify-between">
                             <button type="button" command="close" commandfor="RegistroUso" onclick="document.querySelector('#formuso').reset()"
                                 class="inline-flex w-full justify-end rounded-md bg-[#2563EB] px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-blue-500 sm:ml-3 sm:w-auto">Cadastrar</button>
                             <button type="button" command="close" commandfor="RegistroUso" onclick="document.querySelector('#formuso').reset()"
                                 class="mt-3 inline-flex w-full justify-end rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Fechar</button>
-                    </div>
+                    </div> -->
                 </el-dialog-panel>
             </div>
         </dialog>

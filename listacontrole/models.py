@@ -1,19 +1,25 @@
 from django.db import models
 
+
 # Create your models here.
 
-class UsoModel(models.Model):
-    motorista = models.CharField(max_length=100)
-    veiculo = models.CharField(max_length=100)
-    data_uso = models.DateField()
-    horario_inicio = models.TimeField()
-    horario_final = models.TimeField()
-    km_inicial = models.IntegerField()
-    km_final = models.IntegerField()
-    destino = models.CharField(max_length=200)
+class Empresas(models.TextChoices):
+    DOPTEX = "Doptex"
+    TECELAGEM = "São João Tecelagem"
+    TINTURARIA = "São João Tinturaria"
+    CORRADI = "Corradi"
+    TEXTIL = "Textil Da Serra"
+    
+class MotoristaModel(models.Model):
+    nome = models.CharField(max_length=100)
+    cnh = models.CharField(max_length=20)
+    re = models.IntegerField()
+    empresa = models.CharField(choices=Empresas.choices, default=Empresas.DOPTEX)
+    cargo = models.CharField(max_length=100)
     data_criacao = models.DateTimeField(auto_now_add=True)
+
     def __str__(self):
-        return self.motorista
+        return self.nome
     
 class VeiculoModels(models.Model):
     nome = models.CharField(max_length=100)
@@ -26,14 +32,15 @@ class VeiculoModels(models.Model):
     def __str__(self):
         return self.nome
     
-class MotoristaModel(models.Model):
-    nome = models.CharField(max_length=100)
-    cnh = models.CharField(max_length=20)
-    re = models.IntegerField()
-    empresa = models.CharField(max_length=100)
-    cargo = models.CharField(max_length=100)
+class UsoModel(models.Model):
+    motorista = models.ForeignKey(MotoristaModel, on_delete=models.CASCADE)
+    veiculo = models.ForeignKey(VeiculoModels, on_delete=models.CASCADE)
+    data_uso = models.DateField()
+    horario_inicio = models.TimeField()
+    horario_final = models.TimeField(null=True, blank=True)
+    km_inicial = models.IntegerField()
+    km_final = models.IntegerField(null=True, blank=True)
+    destino = models.CharField(max_length=200)
     data_criacao = models.DateTimeField(auto_now_add=True)
-
     def __str__(self):
-        return self.nome
-    
+        return f"{self.motorista.nome} - {self.veiculo.nome}"
