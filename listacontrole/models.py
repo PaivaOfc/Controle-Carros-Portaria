@@ -1,8 +1,5 @@
 from django.db import models
 
-
-# Create your models here.
-
 class Empresas(models.TextChoices):
     DOPTEX = "Doptex"
     TECELAGEM = "São João Tecelagem"
@@ -27,6 +24,7 @@ class VeiculoModels(models.Model):
     marca = models.CharField(max_length=50)
     ano = models.IntegerField()
     cor = models.CharField(max_length=30)
+    status = models.BooleanField(default=True)  # True = Disponível, False = Em uso
     data_criacao = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -42,5 +40,6 @@ class UsoModel(models.Model):
     km_final = models.IntegerField(null=True, blank=True)
     destino = models.CharField(max_length=200)
     data_criacao = models.DateTimeField(auto_now_add=True)
+    
     def __str__(self):
         return f"{self.motorista.nome} - {self.veiculo.nome}"
