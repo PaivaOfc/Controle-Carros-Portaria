@@ -22,6 +22,8 @@ def listHome(request: HttpRequest):
         elif 'form3_submit' in request.POST:
             formulario = UsoForm(request.POST)
             if formulario.is_valid():
+                
+                
                 uso = formulario.save()
                 # Marcar o veículo como em uso (False = Em uso)
                 uso.veiculo.status = False
