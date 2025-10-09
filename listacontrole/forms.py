@@ -20,5 +20,10 @@ class UsoForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # Torna os campos obrigatórios mais claros
+        motoristas_em_uso_ids = UsoModel.objects.filter(
+            horario_final__isnull=True
+        ).values_list('motorista_id', flat=True)
+        self.fields['motorista'].queryset = MotoristaModel.objects.exclude(id__in=motoristas_em_uso_ids)
+        self.fields['veiculo'].queryset = VeiculoModels.objects.filter(status=True)
         self.fields['data_uso'].widget.attrs.update({'type': 'date'})
         self.fields['horario_inicio'].widget.attrs.update({'type': 'time'})
