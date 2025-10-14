@@ -22,14 +22,25 @@ def listHome(request: HttpRequest):
         elif 'form3_submit' in request.POST:
             formulario = UsoForm(request.POST)
             if formulario.is_valid():
-                
-                
-                uso = formulario.save()
-                # Marcar o veículo como em uso (False = Em uso)
-                uso.veiculo.status = False
-                uso.veiculo.save()
-                messages.success(request, 'Uso registrado com sucesso!')
-                return redirect('listacontrole:home')
+                motorista_selecionado = formulario.cleaned_data.get('motorista')
+                veiculo_selecionado = formulario.cleaned_data.get('veiculo')
+ 
+                motorista_usando = UsoModel.objects.filter(motorista = motorista_selecionado, horario_final__isnull = True).exists()
+                veiculo_usando = UsoModel.objects.filter(veiculo = veiculo_selecionado, horario_final__isnull = True).exists()
+
+                if motorista_usando:
+                    messages.error(request, 'Este motorista já está usando um veículo!')
+                    return redirect('listacontrole:home')
+                elif veiculo_usando:
+                    messages.error(request, 'Este veiculo já está sendo usado por outro motorista!')
+                    return redirect('listacontrole:home')
+                else:
+                    uso = formulario.save()
+                    # Marcar o veículo como em uso (False = Em uso)
+                    uso.veiculo.status = False
+                    uso.veiculo.save()
+                    messages.success(request, 'Uso registrado com sucesso!')
+                    return redirect('listacontrole:home')
         elif 'finalizar_uso_submit' in request.POST:
             uso_id = request.POST.get('uso_id')
             km_final = request.POST.get('km_final')
@@ -37,21 +48,17 @@ def listHome(request: HttpRequest):
             try:
                 uso = get_object_or_404(UsoModel, id=uso_id)
                 
-                # Validar KM final
-                if km_final and int(km_final) >= uso.km_inicial:
-                    uso.km_final = int(km_final)
-                    uso.horario_final = datetime.datetime.now().time()
-                    uso.save()
+                uso.km_final = int(km_final)
+                uso.horario_final = datetime.datetime.now().time()
+                uso.save()
+                
+                # Liberar o veículo (True = Disponível)
+                uso.veiculo.status = True
+                uso.veiculo.save()
+                
+                messages.success(request, f'Uso do veículo {uso.veiculo.nome} finalizado com sucesso!')
                     
-                    # Liberar o veículo (True = Disponível)
-                    uso.veiculo.status = True
-                    uso.veiculo.save()
-                    
-                    messages.success(request, f'Uso do veículo {uso.veiculo.nome} finalizado com sucesso!')
-                else:
-                    messages.error(request, 'KM final deve ser maior ou igual ao KM inicial!')
-                    
-            except (ValueError, TypeError):
+            except (ValueError, TypeError, None):
                 messages.error(request, 'KM final deve ser um número válido!')
             except Exception as e:
                 messages.error(request, f'Erro ao finalizar uso: {str(e)}')
