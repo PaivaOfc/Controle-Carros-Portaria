@@ -58,8 +58,8 @@ def listHome(request: HttpRequest):
                 
                 messages.success(request, f'Uso do veículo {uso.veiculo.nome} finalizado com sucesso!')
                     
-            # except (ValueError, TypeError, None):
-            #     messages.error(request, 'KM final deve ser um número válido!')
+            except (ValueError, TypeError, None):
+                messages.error(request, 'KM final deve ser um número válido!')
             except Exception as e:
                 messages.error(request, f'Erro ao finalizar uso: {str(e)}')
                 
