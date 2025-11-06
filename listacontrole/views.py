@@ -6,6 +6,9 @@ from .models import MotoristaModel, VeiculoModels, UsoModel
 import datetime
 
 def listHome(request: HttpRequest):
+    abrir_modal_editar = False
+    motorista_editando_id = None
+    formeditar = ContactForm()
     if request.method == 'POST':
         if 'form1_submit' in request.POST:
             formulario = ContactForm(request.POST)
@@ -36,7 +39,6 @@ def listHome(request: HttpRequest):
                     return redirect('listacontrole:home')
                 else:
                     uso = formulario.save()
-                    # Marcar o veículo como em uso (False = Em uso)
                     uso.veiculo.status = False
                     uso.veiculo.save()
                     messages.success(request, 'Uso registrado com sucesso!')
@@ -48,13 +50,11 @@ def listHome(request: HttpRequest):
             try:
                 uso = get_object_or_404(UsoModel, id=uso_id)
                 
-                # Validar KM final
                 if km_final and int(km_final) >= uso.km_inicial:
                     uso.km_final = int(km_final)
                     uso.horario_final = datetime.datetime.now().time()
                     uso.save()
                     
-                    # Liberar o veículo (True = Disponível)
                     uso.veiculo.status = True
                     uso.veiculo.save()
                     
@@ -76,27 +76,33 @@ def listHome(request: HttpRequest):
         elif 'editar_motorista' in request.POST:
             motorista_id = request.POST.get('motorista_id')
             motorista = get_object_or_404(MotoristaModel, id=motorista_id)
-            print(motorista)
-            formulario = ContactForm(instance=motorista)
+            formeditar = ContactForm(instance=motorista)
+            abrir_modal_editar = True
+            motorista_editando_id = motorista_id
+        elif 'form4_submit' in request.POST:
+            motorista_id = request.POST.get('motorista_id')
+            motorista = get_object_or_404(MotoristaModel, id=motorista_id)
+            formulario = ContactForm(request.POST, instance=motorista)
             if formulario.is_valid():
                 formulario.save()
                 messages.success(request, 'Motorista editado com sucesso!')
                 return redirect('listacontrole:home')
             else:
-                messages.error(request, 'Erro ao editar motorista!')
-                return redirect('listacontrole:home')
+                formeditar = formulario
+                abrir_modal_editar = True
+                motorista_editando_id = motorista_id
+                messages.error(request, 'Erro ao editar o motorista!')
+
 
     motoristas = MotoristaModel.objects.all()
     veiculos = VeiculoModels.objects.all()
     usos = UsoModel.objects.all()
     
-    # Criar lista com veículos e seus motoristas atuais
     veiculos_com_motoristas = []
     for veiculo in veiculos:
-        # Buscar o último uso não finalizado deste veículo
         uso_atual = UsoModel.objects.filter(
             veiculo=veiculo, 
-            horario_final__isnull=True  # Uso ainda não foi finalizado
+            horario_final__isnull=True
         ).order_by('-data_criacao').first()
         
         veiculo_info = {
@@ -114,6 +120,9 @@ def listHome(request: HttpRequest):
         'usos': usos,
         'form': ContactForm(),
         'formveiculo': VeiculoForm(),
-        'formuso': UsoForm()
+        'formuso': UsoForm(),
+        'formeditar': formeditar,
+        'abrir_modal_editar': abrir_modal_editar,
+        'motorista_editando_id': motorista_editando_id,
     }
     return render(request, 'listacontrole/home.html', context)
