@@ -48,15 +48,19 @@ def listHome(request: HttpRequest):
             try:
                 uso = get_object_or_404(UsoModel, id=uso_id)
                 
-                uso.km_final = int(km_final)
-                uso.horario_final = datetime.datetime.now().time()
-                uso.save()
-                
-                # Liberar o veículo (True = Disponível)
-                uso.veiculo.status = True
-                uso.veiculo.save()
-                
-                messages.success(request, f'Uso do veículo {uso.veiculo.nome} finalizado com sucesso!')
+                # Validar KM final
+                if km_final and int(km_final) >= uso.km_inicial:
+                    uso.km_final = int(km_final)
+                    uso.horario_final = datetime.datetime.now().time()
+                    uso.save()
+                    
+                    # Liberar o veículo (True = Disponível)
+                    uso.veiculo.status = True
+                    uso.veiculo.save()
+                    
+                    messages.success(request, f'Uso do veículo {uso.veiculo.nome} finalizado com sucesso!')
+                else:
+                    messages.error(request, 'KM final deve ser maior ou igual ao KM inicial!')
                     
             except (ValueError, TypeError, None):
                 messages.error(request, 'KM final deve ser um número válido!')
@@ -64,6 +68,23 @@ def listHome(request: HttpRequest):
                 messages.error(request, f'Erro ao finalizar uso: {str(e)}')
                 
             return redirect('listacontrole:home')
+        elif 'excluir_motorista' in request.POST:
+            motorista_id = request.POST.get('motorista_id')
+            MotoristaModel.objects.filter(id=motorista_id).delete()
+            messages.success(request, 'Motorista excluido com sucesso.')
+            return redirect('listacontrole:home')
+        elif 'editar_motorista' in request.POST:
+            motorista_id = request.POST.get('motorista_id')
+            motorista = get_object_or_404(MotoristaModel, id=motorista_id)
+            print(motorista)
+            formulario = ContactForm(instance=motorista)
+            if formulario.is_valid():
+                formulario.save()
+                messages.success(request, 'Motorista editado com sucesso!')
+                return redirect('listacontrole:home')
+            else:
+                messages.error(request, 'Erro ao editar motorista!')
+                return redirect('listacontrole:home')
 
     motoristas = MotoristaModel.objects.all()
     veiculos = VeiculoModels.objects.all()

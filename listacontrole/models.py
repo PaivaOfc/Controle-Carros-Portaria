@@ -11,7 +11,7 @@ class MotoristaModel(models.Model):
     nome = models.CharField(max_length=100)
     cnh = models.CharField(max_length=20)
     re = models.IntegerField()
-    empresa = models.CharField(choices=Empresas.choices, default=Empresas.DOPTEX)
+    empresa = models.CharField(choices=Empresas.choices, default=Empresas.DOPTEX, max_length=50)
     cargo = models.CharField(max_length=100)
     data_criacao = models.DateTimeField(auto_now_add=True)
 

@@ -1,0 +1,10 @@
+# Arquivos de Sistema e Banco de Dados (Recomendado Ignorar)
+db.sqlite3
+*.log
+
+# Arquivos de Cache e Compilação do Python (Recomendado Ignorar)
+__pycache__/
+*.pyc
+
+# Ignorar o ambiente virtual Python, se estiver usando
+venv/
