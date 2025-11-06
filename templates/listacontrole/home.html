@@ -18,12 +18,14 @@
     {% if messages %}
     <div class="fixed top-16 right-2 z-50">
         {% for message in messages %}
-            <div class="mb-2 bg-{% if message.tags == 'success' %}green{% elif message.tags == 'error' %}red{% else %}blue{% endif %}-100 border border-{% if message.tags == 'success' %}green{% elif message.tags == 'error' %}red{% else %}blue{% endif %}-400 text-{% if message.tags == 'success' %}green{% elif message.tags == 'error' %}red{% else %}blue{% endif %}-700 px-4 py-3 rounded shadow-lg max-w-sm">
-                <div class="flex items-center">
-                    <i class="fa fa-{% if message.tags == 'success' %}check{% elif message.tags == 'error' %}exclamation-triangle{% else %}info{% endif %} mr-2"></i>
-                    {{ message }}
-                </div>
+        <div
+            class="mb-2 bg-{% if message.tags == 'success' %}green{% elif message.tags == 'error' %}red{% else %}blue{% endif %}-100 border border-{% if message.tags == 'success' %}green{% elif message.tags == 'error' %}red{% else %}blue{% endif %}-400 text-{% if message.tags == 'success' %}green{% elif message.tags == 'error' %}red{% else %}blue{% endif %}-700 px-4 py-3 rounded shadow-lg max-w-sm">
+            <div class="flex items-center">
+                <i
+                    class="fa fa-{% if message.tags == 'success' %}check{% elif message.tags == 'error' %}exclamation-triangle{% else %}info{% endif %} mr-2"></i>
+                {{ message }}
             </div>
+        </div>
         {% endfor %}
     </div>
     {% endif %}
@@ -33,22 +35,29 @@
 
 
 
-    <nav class="bg-[#2563EB] p-3">
+    <nav class="bg-[#2563EB] p-3 w-[100%]">
         <div class="container mx-auto">
             <ul class="flex space-x-4 items-center justify-between">
                 <h2 class="text-white font-bold text-[20px]">Sistema de Controle de Veículos</h2>
                 <div class="flex justify-end gap-4">
                     <!--<div
                         class="h-10 w-40 bg-[#1D4ED8] rounded-lg flex items-center justify-center cursor-pointer gap-2 group hover:bg-[#00185B] ">
-                      </div> --> 
-                        <button command="show-modal" commandfor="ListaMotoristas" onclick="document.querySelector('formmotorista').reset()" class="h-10 w-40 bg-[#1D4ED8] rounded-lg flex items-center justify-center cursor-pointer text-white gap-2 hover:bg-[#00185B] hover:font-bold"> <i class="fa fa-user text-white" aria-hidden="true"></i>Motoristas</button>
-                    <div
-                        class="flex justify-end gap-4">
-                        <button command="show-modal" commandfor="CadastroVeiculos" onclick="document.querySelector('formveiculo').reset()" class="h-10 w-40 bg-[#1D4ED8] rounded-lg flex items-center justify-center cursor-pointer text-white gap-2 hover:bg-[#00185B] hover:font-bold"> <i class="fa fa-car text-white" aria-hidden="true"></i>Novo Veículo</button>
+                      </div> -->
+                    <button command="show-modal" commandfor="ListaMotoristas"
+                        onclick="document.querySelector('formmotorista').reset()"
+                        class="h-10 w-40 bg-[#1D4ED8] rounded-lg flex items-center justify-center cursor-pointer text-white gap-2 hover:bg-[#00185B] hover:font-bold">
+                        <i class="fa fa-user text-white" aria-hidden="true"></i>Motoristas</button>
+                    <div class="flex justify-end gap-4">
+                        <button command="show-modal" commandfor="CadastroVeiculos"
+                            onclick="document.querySelector('formveiculo').reset()"
+                            class="h-10 w-40 bg-[#1D4ED8] rounded-lg flex items-center justify-center cursor-pointer text-white gap-2 hover:bg-[#00185B] hover:font-bold">
+                            <i class="fa fa-car text-white" aria-hidden="true"></i>Novo Veículo</button>
                     </div>
-                    <div
-                        class="flex justify-end gap-4">
-                        <button command="show-modal" commandfor="RegistroUso" onclick="document.querySelector('formuso').reset()" class="h-10 w-40 bg-[#16A34A] rounded-lg flex items-center justify-center cursor-pointer text-white gap-2 hover:bg-[#014D1D] hover:font-bold"><i class="fa fa-pencil text-white" aria-hidden="true"></i>Registrar Uso</button>
+                    <div class="flex justify-end gap-4">
+                        <button command="show-modal" commandfor="RegistroUso"
+                            onclick="document.querySelector('formuso').reset()"
+                            class="h-10 w-40 bg-[#16A34A] rounded-lg flex items-center justify-center cursor-pointer text-white gap-2 hover:bg-[#014D1D] hover:font-bold"><i
+                                class="fa fa-pencil text-white" aria-hidden="true"></i>Registrar Uso</button>
                     </div>
                 </div>
             </ul>
@@ -73,35 +82,35 @@
                 </thead>
                 <tbody>
                     {% for item in veiculos_com_motoristas %}
-                        <tr class="text-center">
-                            <td class="px-4 py-2 col-span-2">{{ item.veiculo.placa }}</td>
-                            <td class="px-4 py-2 col-span-2">{{ item.veiculo.nome }}</td>
-                            <td class="px-4 py-2 col-span-2">{{ item.veiculo.ano }}</td>
-                            <td class="px-4 py-2 col-span-2">
-                                {% if item.em_uso %}
-                                    <i class="fa fa-times text-red-500" aria-hidden="true"></i> Em uso
-                                {% else %}
-                                    <i class="fa fa-check text-green-500" aria-hidden="true"></i> Disponível
-                                {% endif %}
-                            </td>
-                            <td class="px-4 py-2 col-span-3">
-                                {% if item.motorista_atual %}
-                                    {{ item.motorista_atual.nome }}
-                                {% else %}
-                                    -
-                                {% endif %}
-                            </td>
-                            <td class="px-4 py-2 col-span-1">
-                                {% if item.uso_atual %}
-                                    <button command="show-modal" commandfor="FinalizarUso-{{ item.uso_atual.id }}" 
-                                            class="text-indigo-600 hover:text-indigo-900 bg-indigo-100 rounded-md px-4 py-2">
-                                        Finalizar uso
-                                    </button>
-                                {% else %} 
-                                    - 
-                                {% endif %}
-                            </td>
-                        </tr>
+                    <tr class="text-center">
+                        <td class="px-4 py-2 col-span-2">{{ item.veiculo.placa }}</td>
+                        <td class="px-4 py-2 col-span-2">{{ item.veiculo.nome }}</td>
+                        <td class="px-4 py-2 col-span-2">{{ item.veiculo.ano }}</td>
+                        <td class="px-4 py-2 col-span-2">
+                            {% if item.em_uso %}
+                            <i class="fa fa-times text-red-500" aria-hidden="true"></i> Em uso
+                            {% else %}
+                            <i class="fa fa-check text-green-500" aria-hidden="true"></i> Disponível
+                            {% endif %}
+                        </td>
+                        <td class="px-4 py-2 col-span-3">
+                            {% if item.motorista_atual %}
+                            {{ item.motorista_atual.nome }}
+                            {% else %}
+                            -
+                            {% endif %}
+                        </td>
+                        <td class="px-4 py-2 col-span-1">
+                            {% if item.uso_atual %}
+                            <button command="show-modal" commandfor="FinalizarUso-{{ item.uso_atual.id }}"
+                                class="text-indigo-600 hover:text-indigo-900 bg-indigo-100 rounded-md px-4 py-2">
+                                Finalizar uso
+                            </button>
+                            {% else %}
+                            -
+                            {% endif %}
+                        </td>
+                    </tr>
                     {% endfor %}
                 </tbody>
             </table>
@@ -112,393 +121,458 @@
 
 <!-- Modal -->
 
-    <!-- Lista de motoristas -->
-    <el-dialog>
-        <dialog id="ListaMotoristas" aria-labelledby="dialog-title"
-            class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
-            <el-dialog-backdrop
-                class="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
+<!-- Lista de motoristas -->
+<el-dialog>
+    <dialog id="ListaMotoristas" aria-labelledby="dialog-title"
+        class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
+        <el-dialog-backdrop
+            class="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
 
-            <div tabindex="0"
-                class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
-                <el-dialog-panel
-                    class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-5xl data-closed:sm:translate-y-0 data-closed:sm:scale-95">
-                    <div class="bg-white px-6 pt-5 pb-4 sm:p-8 sm:pb-6">
-                        <div class="sm:flex sm:items-start">
-                            <div
-                                class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-blue-100 sm:mx-0 sm:size-10">
-                                <i class="fa fa-users text-[#2563EB]" aria-hidden="true"></i>
+        <div tabindex="0"
+            class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
+            <el-dialog-panel
+                class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-5xl data-closed:sm:translate-y-0 data-closed:sm:scale-95">
+                <div class="bg-white px-6 pt-5 pb-4 sm:p-8 sm:pb-6">
+                    <div class="sm:flex sm:items-start">
+                        <div
+                            class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-blue-100 sm:mx-0 sm:size-10">
+                            <i class="fa fa-users text-[#2563EB]" aria-hidden="true"></i>
+                        </div>
+                        <div class="mt-2 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                            <h3 id="dialog-title" class="text-base font-semibold text-gray-900 mb-3">Lista de Motoristas
+                            </h3>
+                            <div class="mt-2 max-h-96 overflow-y-auto">
+                                <table class="min-w-full divide-y divide-gray-200">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col"
+                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                Nome
+                                            </th>
+                                            <th scope="col"
+                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                RE
+                                            </th>
+                                            <th scope="col"
+                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                Ações
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-gray-200">
+                                        {% for motorista in motoristas %}
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                {{ motorista.nome }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                {{ motorista.re }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <form method="post" style="display: inline;">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="motorista_id" value="{{ motorista.id }}">
+                                                    <button type="submit" name="editar_motorista"
+                                                        class="text-indigo-600 hover:text-indigo-900">Editar</button>
+                                                </form>
+                                                <form method="post" style="display: inline;">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="motorista_id" value="{{ motorista.id }}">
+                                                    <button type="submit" name="excluir_motorista"
+                                                        class="text-red-600 hover:text-red-900">Excluir</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
                             </div>
-                            <div class="mt-2 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-                                <h3 id="dialog-title" class="text-base font-semibold text-gray-900 mb-3">Lista de Motoristas
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 gap-1">
+                    <button type="button" command="show-modal" commandfor="CadastroMotorista"
+                        onclick="document.querySelector('form').reset()"
+                        class="inline-flex w-full justify-center rounded-md bg-[#2563EB] px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-blue-500 sm:ml-3 sm:w-auto">Cadastrar</button>
+                    <button type="button" command="close" commandfor="ListaMotoristas"
+                        class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Fechar</button>
+                </div>
+            </el-dialog-panel>
+        </div>
+    </dialog>
+</el-dialog>
+
+<!--Cadastro de motorista-->
+<el-dialog>
+    <dialog id="CadastroMotorista" aria-labelledby="dialog-title"
+        class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
+        <el-dialog-backdrop
+            class="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
+
+        <div tabindex="0"
+            class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
+            <el-dialog-panel
+                class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-md data-closed:sm:translate-y-0 data-closed:sm:scale-95">
+                <div class="bg-white px-6 pt-5 pb-4 sm:p-8 sm:pb-6">
+                    <div class="sm:flex sm:items-start">
+                        <div
+                            class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-blue-100 sm:mx-0 sm:size-10">
+                            <i class="fa fa-user text-[#2563EB]" aria-hidden="true"></i>
+                        </div>
+                        <div class="mt-2 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                            <h3 id="dialog-title" class="text-base font-semibold text-gray-900 mb-3">Adicione um novo
+                                motorista
+                            </h3>
+                            <div class="mt-2">
+                                <form action="" id="formmotorista" class="space-y-3" method="post">
+                                    {% csrf_token %}
+                                    {{ form|crispy }}
+                                    <div class="px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 flex justify-start">
+                                        <button type="submit"
+                                            class="inline-flex w-full justify-end rounded-md bg-[#2563EB] px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-blue-500 sm:ml-3 sm:w-auto"
+                                            name="form1_submit">Cadastrar</button>
+                                        <button type="button" command="close" commandfor="CadastroMotorista"
+                                            onclick="document.querySelector('#formmotorista').reset()"
+                                            class="mt-3 inline-flex w-full justify-end rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Fechar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </el-dialog-panel>
+        </div>
+    </dialog>
+</el-dialog>
+
+<!-- Cadastro de veículos-->
+<el-dialog>
+    <dialog id="CadastroVeiculos" aria-labelledby="dialog-title"
+        class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
+        <el-dialog-backdrop
+            class="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
+
+        <div tabindex="0"
+            class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
+            <el-dialog-panel
+                class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-md data-closed:sm:translate-y-0 data-closed:sm:scale-95">
+                <div class="bg-white px-6 pt-5 pb-4 sm:p-8 sm:pb-6">
+                    <div class="sm:flex sm:items-start">
+                        <div
+                            class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-blue-100 sm:mx-0 sm:size-10">
+                            <i class="fa fa-car text-[#2563EB]" aria-hidden="true"></i>
+                        </div>
+                        <div class="mt-2 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                            <div class="flex justify-between">
+                                <h3 id="dialog-title" class="text-base font-semibold text-gray-900">Adicione um novo
+                                    veículo
                                 </h3>
-                                <div class="mt-2 max-h-96 overflow-y-auto">
-                                    <table class="min-w-full divide-y divide-gray-200">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                    Nome
-                                                </th>
-                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                    CPF
-                                                </th>
-                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                    Ações
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="bg-white divide-y divide-gray-200">
-                                            {% for motorista in motoristas %}
-                                            <tr>
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                    {{ motorista.nome }}
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                    {{ motorista.cnh }}
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                    <button class="text-indigo-600 hover:text-indigo-900">Editar</button>
-                                                    <button class="text-red-600 hover:text-red-900">Excluir</button>
-                                                </td>
-                                            </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
-                                </div>
+                                <button type="button" command="close" commandfor="CadastroVeiculos"
+                                    onclick="document.querySelector('#formveiculo').reset()"><i class="fa fa-close"
+                                        aria-hidden="true"></i></button>
+                            </div>
+                            <div class="mt-2">
+                                <form action="" id="formveiculo" class="space-y-3" method="post">
+                                    {% csrf_token %}
+                                    {{ formveiculo|crispy }}
+                                    <button type="submit" name="form2_submit"
+                                        class="w-full justify-end rounded-md bg-[#2563EB] px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-blue-500">Cadastrar</button>
+                                    <button type="button" command="show-modal" commandfor="ListaVeiculos"
+                                        class="bg-red-600 rounded-md w-full  text-center py-2 px-2 text-sm text-white gap-1 shadow-xs w-full text-center inset-ring inset-ring-gray-300 hover:bg-red-500">Excluir/Editar
+                                        veículo</button>
+                                </form>
                             </div>
                         </div>
                     </div>
-                    <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 gap-1">
-                        <button type="button" command="show-modal" commandfor="CadastroMotorista" onclick="document.querySelector('form').reset()"
-                            class="inline-flex w-full justify-center rounded-md bg-[#2563EB] px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-blue-500 sm:ml-3 sm:w-auto">Cadastrar</button>
-                        <button type="button" command="close" commandfor="ListaMotoristas"
-                            class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Fechar</button>
-                    </div>
-                </el-dialog-panel>
-            </div>
-        </dialog>
-    </el-dialog>
+                </div>
+            </el-dialog-panel>
+        </div>
+    </dialog>
+</el-dialog>
 
-    <!--Cadastro de motorista-->
-    <el-dialog>
-        <dialog id="CadastroMotorista" aria-labelledby="dialog-title"
-            class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
-            <el-dialog-backdrop
-                class="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
+<!-- Lista de veiculos-->
+<el-dialog>
+    <dialog id="ListaVeiculos" aria-labelledby="dialog-title"
+        class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
+        <el-dialog-backdrop
+            class="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
 
-            <div tabindex="0"
-                class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
-                <el-dialog-panel
-                    class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-md data-closed:sm:translate-y-0 data-closed:sm:scale-95">
-                    <div class="bg-white px-6 pt-5 pb-4 sm:p-8 sm:pb-6">
-                        <div class="sm:flex sm:items-start">
-                            <div
-                                class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-blue-100 sm:mx-0 sm:size-10">
-                                <i class="fa fa-user text-[#2563EB]" aria-hidden="true"></i>
-                            </div>
-                            <div class="mt-2 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-                                <h3 id="dialog-title" class="text-base font-semibold text-gray-900 mb-3">Adicione um novo motorista
-                                </h3>
-                                <div class="mt-2">
-                                    <form action="" id="formmotorista" class="space-y-3" method="post">
-                                        {% csrf_token %}
-                                        {{ form|crispy }}
-                                        <div class="px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 flex justify-start">
-                                            <button type="submit" class="inline-flex w-full justify-end rounded-md bg-[#2563EB] px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-blue-500 sm:ml-3 sm:w-auto" name="form1_submit">Cadastrar</button>
-                                            <button type="button" command="close" commandfor="CadastroMotorista" onclick="document.querySelector('#formmotorista').reset()" class="mt-3 inline-flex w-full justify-end rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Fechar</button>
-                                        </div>
-                                    </form>
-                                </div>
+        <div tabindex="0"
+            class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
+            <el-dialog-panel
+                class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-5xl data-closed:sm:translate-y-0 data-closed:sm:scale-95">
+                <div class="bg-white px-6 pt-5 pb-4 sm:p-8 sm:pb-6">
+                    <div class="sm:flex sm:items-start">
+                        <div
+                            class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-blue-100 sm:mx-0 sm:size-10">
+                            <i class="fa fa-car text-[#2563EB]" aria-hidden="true"></i>
+                        </div>
+                        <div class="mt-2 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                            <h3 id="dialog-title" class="text-base font-semibold text-gray-900 mb-3">Lista de Veículos
+                            </h3>
+                            <div class="mt-2 max-h-96 overflow-y-auto">
+                                <table class="min-w-full divide-y divide-gray-200">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col"
+                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                Nome do Veiculo
+                                            </th>
+                                            <th scope="col"
+                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                Marca
+                                            </th>
+                                            <th scope="col"
+                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                Placa
+                                            </th>
+                                            <th scope="col"
+                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                Ano
+                                            </th>
+                                            <th scope="col"
+                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                Cor
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-gray-200">
+                                        {% for veiculo in veiculos %}
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                {{ veiculo.nome }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                {{ veiculo.marca }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                {{ veiculo.placa }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                {{ veiculo.ano }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                {{ veiculo.cor }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap gap-2">
+                                                <button class="text-indigo-600 hover:text-indigo-900">Editar</button>
+                                                <button class="text-red-600 hover:text-red-900">Excluir</button>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
-                </el-dialog-panel>
-            </div>
-        </dialog>
-    </el-dialog>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 gap-1">
+                    <button type="button" command="close" commandfor="ListaVeiculos"
+                        class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Fechar</button>
+                </div>
+            </el-dialog-panel>
+        </div>
+    </dialog>
+</el-dialog>
 
-    <!-- Cadastro de veículos-->
-    <el-dialog>
-        <dialog id="CadastroVeiculos" aria-labelledby="dialog-title"
-            class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
-            <el-dialog-backdrop
-                class="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
 
-            <div tabindex="0"
-                class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
-                <el-dialog-panel
-                    class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-md data-closed:sm:translate-y-0 data-closed:sm:scale-95">
-                    <div class="bg-white px-6 pt-5 pb-4 sm:p-8 sm:pb-6">
-                        <div class="sm:flex sm:items-start">
-                            <div
-                                class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-blue-100 sm:mx-0 sm:size-10">
-                                <i class="fa fa-car text-[#2563EB]" aria-hidden="true"></i>
-                            </div>
-                            <div class="mt-2 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-                                <div class="flex justify-between">
-                                    <h3 id="dialog-title" class="text-base font-semibold text-gray-900">Adicione um novo veículo
-                                    </h3>
-                                    <button type="button" command="close" commandfor="CadastroVeiculos"
-                                                    onclick="document.querySelector('#formveiculo').reset()"><i class="fa fa-close" aria-hidden="true"></i></button>
-                                </div>
-                                <div class="mt-2">
-                                    <form action="" id="formveiculo" class="space-y-3" method="post">
-                                        {% csrf_token %}
-                                        {{ formveiculo|crispy }}
-                                        <button type="submit" name="form2_submit"
-                                            class= "w-full justify-end rounded-md bg-[#2563EB] px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-blue-500">Cadastrar</button>
-                                        <button type="button" command="show-modal" commandfor="ListaVeiculos"
-                                            class="bg-red-600 rounded-md w-full  text-center py-2 px-2 text-sm text-white gap-1 shadow-xs w-full text-center inset-ring inset-ring-gray-300 hover:bg-red-500">Excluir/Editar veículo</button>
-                                    </form>
-                                </div>
+<!-- Registro de Uso -->
+<el-dialog>
+    <dialog id="RegistroUso" aria-labelledby="dialog-title"
+        class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
+        <el-dialog-backdrop
+            class="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
+
+        <div tabindex="0"
+            class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
+            <el-dialog-panel
+                class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-md data-closed:sm:translate-y-0 data-closed:sm:scale-95">
+                <div class="bg-white px-6 pt-5 pb-4 sm:p-8 sm:pb-6">
+                    <div class="sm:flex sm:items-start">
+                        <div
+                            class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-blue-100 sm:mx-0 sm:size-10">
+                            <i class="fa fa-pencil text-[#2563EB]" aria-hidden="true"></i>
+                        </div>
+                        <div class="mt-2 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                            <h3 id="dialog-title" class="text-base font-semibold text-gray-900 mb-3">Registrar Uso de
+                                Veículo
+                            </h3>
+                            <div class="mt-2">
+                                <form action="" id="formuso" class="space-y-3" method="post">
+                                    {% csrf_token %}
+                                    {{ formuso|crispy }}
+                                    <div class="px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 flex justify-start">
+                                        <button type="submit" name="form3_submit"
+                                            class="inline-flex w-full justify-end rounded-md bg-[#2563EB] px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-blue-500 sm:ml-3 sm:w-auto">Registrar</button>
+                                        <button type="button" command="close" commandfor="RegistroUso"
+                                            onclick="document.querySelector('#formuso').reset()"
+                                            class="mt-3 inline-flex w-full justify-end rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Fechar</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
-                </el-dialog-panel>
-            </div>
-        </dialog>
-    </el-dialog>
+                </div>
+            </el-dialog-panel>
+        </div>
+    </dialog>
+</el-dialog>
 
-    <!-- Lista de veiculos-->
-    <el-dialog>
-        <dialog id="ListaVeiculos" aria-labelledby="dialog-title"
-            class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
-            <el-dialog-backdrop
-                class="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
+<el-dialog>
+    <dialog id="RegistroUso" aria-labelledby="dialog-title"
+        class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
+        <el-dialog-backdrop
+            class="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
 
-            <div tabindex="0"
-                class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
-                <el-dialog-panel
-                    class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-5xl data-closed:sm:translate-y-0 data-closed:sm:scale-95">
-                    <div class="bg-white px-6 pt-5 pb-4 sm:p-8 sm:pb-6">
-                        <div class="sm:flex sm:items-start">
-                            <div
-                                class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-blue-100 sm:mx-0 sm:size-10">
-                                <i class="fa fa-car text-[#2563EB]" aria-hidden="true"></i>
-                            </div>
-                            <div class="mt-2 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-                                <h3 id="dialog-title" class="text-base font-semibold text-gray-900 mb-3">Lista de Veículos
-                                </h3>
-                                <div class="mt-2 max-h-96 overflow-y-auto">
-                                    <table class="min-w-full divide-y divide-gray-200">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                    Nome do Veiculo
-                                                </th>
-                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                    Marca
-                                                </th>
-                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                    Placa
-                                                </th>
-                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                    Ano
-                                                </th>
-                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                    Cor
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="bg-white divide-y divide-gray-200">
-                                            {% for veiculo in veiculos %}
-                                            <tr>
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                    {{ veiculo.nome }}
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                    {{ veiculo.marca }}
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                    {{ veiculo.placa }}
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                    {{ veiculo.ano }}
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                    {{ veiculo.cor }}
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap gap-2">
-                                                    <button class="text-indigo-600 hover:text-indigo-900">Editar</button>
-                                                    <button class="text-red-600 hover:text-red-900">Excluir</button>
-                                                </td>
-                                            </tr>
-                                            {% endfor %}
-
-                                        </tbody>
-                                    </table>
-                                </div>
+        <div tabindex="0"
+            class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
+            <el-dialog-panel
+                class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-md data-closed:sm:translate-y-0 data-closed:sm:scale-95">
+                <div class="bg-white px-6 pt-5 pb-4 sm:p-8 sm:pb-6">
+                    <div class="sm:flex sm:items-start">
+                        <div
+                            class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-blue-100 sm:mx-0 sm:size-10">
+                            <i class="fa fa-pencil text-[#2563EB]" aria-hidden="true"></i>
+                        </div>
+                        <div class="mt-2 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                            <h3 id="dialog-title" class="text-base font-semibold text-gray-900 mb-3">Registrar Uso de
+                                Veículo
+                            </h3>
+                            <div class="mt-2">
+                                <form action="" id="formuso" class="space-y-3" method="post">
+                                    {% csrf_token %}
+                                    {{ formuso|crispy }}
+                                    <div class="px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 flex justify-start">
+                                        <button type="submit" name="form3_submit"
+                                            class="inline-flex w-full justify-end rounded-md bg-[#2563EB] px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-blue-500 sm:ml-3 sm:w-auto">Registrar</button>
+                                        <button type="button" command="close" commandfor="RegistroUso"
+                                            onclick="document.querySelector('#formuso').reset()"
+                                            class="mt-3 inline-flex w-full justify-end rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Fechar</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
-                    <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 gap-1">
-                        <button type="button" command="close" commandfor="ListaVeiculos"
-                            class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Fechar</button>
-                    </div>
-                </el-dialog-panel>
-            </div>
-        </dialog>
-    </el-dialog>
+                </div>
+            </el-dialog-panel>
+        </div>
+    </dialog>
+</el-dialog>
 
+{% for item in veiculos_com_motoristas %}
+{% if item.uso_atual %}
+<el-dialog>
+    <dialog id="FinalizarUso-{{ item.uso_atual.id }}" aria-labelledby="dialog-title"
+        class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
+        <el-dialog-backdrop
+            class="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
 
-    <!-- Registro de Uso -->
-    <el-dialog>
-        <dialog id="RegistroUso" aria-labelledby="dialog-title"
-            class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
-            <el-dialog-backdrop
-                class="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
+        <div tabindex="0"
+            class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
+            <el-dialog-panel
+                class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-md data-closed:sm:translate-y-0 data-closed:sm:scale-95">
+                <div class="bg-white px-6 pt-5 pb-4 sm:p-8 sm:pb-6">
+                    <div class="sm:flex sm:items-start">
+                        <div
+                            class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:size-10">
+                            <i class="fa fa-stop text-red-600" aria-hidden="true"></i>
+                        </div>
+                        <div class="mt-2 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                            <h3 id="dialog-title" class="text-base font-semibold text-gray-900 mb-3">
+                                Finalizar Uso do Veículo
+                            </h3>
 
-            <div tabindex="0"
-                class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
-                <el-dialog-panel
-                    class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-md data-closed:sm:translate-y-0 data-closed:sm:scale-95">
-                    <div class="bg-white px-6 pt-5 pb-4 sm:p-8 sm:pb-6">
-                        <div class="sm:flex sm:items-start">
-                            <div
-                                class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-blue-100 sm:mx-0 sm:size-10">
-                                <i class="fa fa-pencil text-[#2563EB]" aria-hidden="true"></i>
+                            <!-- Informações do uso atual -->
+                            <div class="mb-4 bg-gray-50 p-3 rounded-lg text-sm">
+                                <p><strong>Veículo:</strong> {{ item.veiculo.nome }} - {{ item.veiculo.placa }}</p>
+                                <p><strong>Motorista:</strong> {{ item.motorista_atual.nome }}</p>
+                                <p><strong>Data:</strong> {{ item.uso_atual.data_uso|date:"d/m/Y" }}</p>
+                                <p><strong>Início:</strong> {{ item.uso_atual.horario_inicio|time:"H:i" }}</p>
+                                <p><strong>KM Inicial:</strong> {{ item.uso_atual.km_inicial }} km</p>
+                                <p><strong>Destino:</strong> {{ item.uso_atual.destino }}</p>
                             </div>
-                            <div class="mt-2 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-                                <h3 id="dialog-title" class="text-base font-semibold text-gray-900 mb-3">Registrar Uso de Veículo
-                                </h3>
-                                <div class="mt-2">
-                                    <form action="" id="formuso" class="space-y-3" method="post">
-                                        {% csrf_token %}
-                                        {{ formuso|crispy }}
-                                        <div class="px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 flex justify-start">
-                                            <button type="submit" name="form3_submit" class="inline-flex w-full justify-end rounded-md bg-[#2563EB] px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-blue-500 sm:ml-3 sm:w-auto">Registrar</button>
-                                            <button type="button" command="close" commandfor="RegistroUso" onclick="document.querySelector('#formuso').reset()" class="mt-3 inline-flex w-full justify-end rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Fechar</button>
-                                        </div>
-                                    </form>
-                                </div>
+
+                            <div class="mt-2">
+                                <form action="" method="post" class="space-y-3">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="uso_id" value="{{ item.uso_atual.id }}">
+
+                                    <div>
+                                        <label for="km_final_{{ item.uso_atual.id }}"
+                                            class="block text-sm font-medium text-gray-700 mb-1">
+                                            KM Final:
+                                        </label>
+                                        <input type="number" id="km_final_{{ item.uso_atual.id }}" name="km_final"
+                                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                                            placeholder="Digite o KM final">
+                                        <p class="text-xs text-gray-500 mt-1">
+                                            Deve ser ≥ {{ item.uso_atual.km_inicial }} km
+                                        </p>
+                                    </div>
+
+                                    <div class="pt-3 flex gap-2">
+                                        <button type="submit" name="finalizar_uso_submit"
+                                            class="flex-1 bg-red-600 text-white py-2 px-4 rounded-md text-sm font-medium hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500">
+                                            <i class="fa fa-stop mr-1"></i>Finalizar
+                                        </button>
+
+                                        <button type="button" command="close"
+                                            commandfor="FinalizarUso-{{ item.uso_atual.id }}"
+                                            class="flex-1 bg-gray-300 text-gray-700 py-2 px-4 rounded-md text-sm font-medium hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500">
+                                            Cancelar
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
-                </el-dialog-panel>
-            </div>
-        </dialog>
-    </el-dialog>
-
-    <el-dialog>
-        <dialog id="RegistroUso" aria-labelledby="dialog-title"
-            class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
-            <el-dialog-backdrop
-                class="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
-
-            <div tabindex="0"
-                class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
-                <el-dialog-panel
-                    class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-md data-closed:sm:translate-y-0 data-closed:sm:scale-95">
-                    <div class="bg-white px-6 pt-5 pb-4 sm:p-8 sm:pb-6">
-                        <div class="sm:flex sm:items-start">
-                            <div
-                                class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-blue-100 sm:mx-0 sm:size-10">
-                                <i class="fa fa-pencil text-[#2563EB]" aria-hidden="true"></i>
-                            </div>
-                            <div class="mt-2 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-                                <h3 id="dialog-title" class="text-base font-semibold text-gray-900 mb-3">Registrar Uso de Veículo
-                                </h3>
-                                <div class="mt-2">
-                                    <form action="" id="formuso" class="space-y-3" method="post">
-                                        {% csrf_token %}
-                                        {{ formuso|crispy }}
-                                        <div class="px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 flex justify-start">
-                                            <button type="submit" name="form3_submit" class="inline-flex w-full justify-end rounded-md bg-[#2563EB] px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-blue-500 sm:ml-3 sm:w-auto">Registrar</button>
-                                            <button type="button" command="close" commandfor="RegistroUso" onclick="document.querySelector('#formuso').reset()" class="mt-3 inline-flex w-full justify-end rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Fechar</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </el-dialog-panel>
-            </div>
-        </dialog>
-    </el-dialog>
-
-    {% for item in veiculos_com_motoristas %}
-    {% if item.uso_atual %}
-    <el-dialog>
-        <dialog id="FinalizarUso-{{ item.uso_atual.id }}" aria-labelledby="dialog-title"
-            class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
-            <el-dialog-backdrop
-                class="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
-
-            <div tabindex="0"
-                class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
-                <el-dialog-panel
-                    class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-md data-closed:sm:translate-y-0 data-closed:sm:scale-95">
-                    <div class="bg-white px-6 pt-5 pb-4 sm:p-8 sm:pb-6">
-                        <div class="sm:flex sm:items-start">
-                            <div
-                                class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:size-10">
-                                <i class="fa fa-stop text-red-600" aria-hidden="true"></i>
-                            </div>
-                            <div class="mt-2 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-                                <h3 id="dialog-title" class="text-base font-semibold text-gray-900 mb-3">
-                                    Finalizar Uso do Veículo
-                                </h3>
-                                
-                                <!-- Informações do uso atual -->
-                                <div class="mb-4 bg-gray-50 p-3 rounded-lg text-sm">
-                                    <p><strong>Veículo:</strong> {{ item.veiculo.nome }} - {{ item.veiculo.placa }}</p>
-                                    <p><strong>Motorista:</strong> {{ item.motorista_atual.nome }}</p>
-                                    <p><strong>Data:</strong> {{ item.uso_atual.data_uso|date:"d/m/Y" }}</p>
-                                    <p><strong>Início:</strong> {{ item.uso_atual.horario_inicio|time:"H:i" }}</p>
-                                    <p><strong>KM Inicial:</strong> {{ item.uso_atual.km_inicial }} km</p>
-                                    <p><strong>Destino:</strong> {{ item.uso_atual.destino }}</p>
-                                </div>
-
-                                <div class="mt-2">
-                                    <form action="" method="post" class="space-y-3">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="uso_id" value="{{ item.uso_atual.id }}">
-                                        
-                                        <div>
-                                            <label for="km_final_{{ item.uso_atual.id }}" class="block text-sm font-medium text-gray-700 mb-1">
-                                                KM Final:
-                                            </label>
-                                            <input 
-                                                type="number" 
-                                                id="km_final_{{ item.uso_atual.id }}" 
-                                                name="km_final" 
-                                                min="{{ item.uso_atual.km_inicial }}"
-                                                required
-                                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                                                placeholder="Digite o KM final"
-                                            >
-                                            <p class="text-xs text-gray-500 mt-1">
-                                                Deve ser ≥ {{ item.uso_atual.km_inicial }} km
-                                            </p>
-                                        </div>
-
-                                        <div class="pt-3 flex gap-2">
-                                            <button 
-                                                type="submit" 
-                                                name="finalizar_uso_submit"
-                                                class="flex-1 bg-red-600 text-white py-2 px-4 rounded-md text-sm font-medium hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
-                                            >
-                                                <i class="fa fa-stop mr-1"></i>Finalizar
-                                            </button>
-                                            
-                                            <button 
-                                                type="button" 
-                                                command="close" 
-                                                commandfor="FinalizarUso-{{ item.uso_atual.id }}"
-                                                class="flex-1 bg-gray-300 text-gray-700 py-2 px-4 rounded-md text-sm font-medium hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500"
-                                            >
-                                                Cancelar
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </el-dialog-panel>
-            </div>
-        </dialog>
-    </el-dialog>
-    {% endif %}
+                </div>
+            </el-dialog-panel>
+        </div>
+    </dialog>
+</el-dialog>
+{% endif %}
 {% endfor %}
+
+<!-- Modal de edição de motorista -->
+<el-dialog>
+    <dialog id="EditarMotorista" aria-labelledby="dialog-title"
+        class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
+        <el-dialog-backdrop
+            class="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
+        <div tabindex="0"
+            class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
+            <el-dialog-panel
+                class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-md data-closed:sm:translate-y-0 data-closed:sm:scale-95">
+                <div class="bg-white px-6 pt-5 pb-4 sm:p-8 sm:pb-6">
+                    <div class="sm:flex sm:items-start">
+                        <div
+                            class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-blue-100 sm:mx-0 sm:size-10">
+                            <i class="fa fa-pencil text-[#2563EB]" aria-hidden="true"></i>
+                        </div>
+                        <div class="mt-2 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                            <h3 id="dialog-title" class="text-base font-semibold text-gray-900 mb-3">Editar Motorista
+                            </h3>
+                            <div class="mt-2">
+                                <form action="" id="formeditar" class="space-y-3" method="post">
+                                    {% csrf_token %}
+                                    {{ formeditar|crispy }}
+                                    <div class="px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 flex justify-start">
+                                        <button type="submit" name="form4_submit"
+                                            class="inline-flex w-full justify-end rounded-md bg-[#2563EB] px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-blue-500 sm:ml-3 sm:w-auto">Salvar</button>
+                                        <button type="button" command="close" commandfor="EditarMotorista"
+                                            onclick="document.querySelector('#formeditar').reset()"
+                                            class="mt-3 inline-flex w-full justify-end rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Fechar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </el-dialog-panel>
+        </div>
+    </dialog>
+</el-dialog>
+
 </html>
