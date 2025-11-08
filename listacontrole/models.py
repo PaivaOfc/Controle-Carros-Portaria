@@ -36,7 +36,7 @@ class UsoModel(models.Model):
     data_uso = models.DateField()
     horario_inicio = models.TimeField()
     horario_final = models.TimeField(null=True, blank=True)
-    km_inicial = models.IntegerField()
+    km_inicial = models.IntegerField(null=True, blank=True)
     km_final = models.IntegerField(null=True, blank=True)
     destino = models.CharField(max_length=200)
     data_criacao = models.DateTimeField(auto_now_add=True)

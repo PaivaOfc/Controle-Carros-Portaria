@@ -6,9 +6,12 @@ from .models import MotoristaModel, VeiculoModels, UsoModel
 import datetime
 
 def listHome(request: HttpRequest):
-    abrir_modal_editar = False
+    abrir_modal_editar_motorista = False
+    abrir_modal_editar_veiculo = False
     motorista_editando_id = None
+    veiculo_editando_id = None
     formeditar = ContactForm()
+    formeditarveiculo = VeiculoForm()
     if request.method == 'POST':
         if 'form1_submit' in request.POST:
             formulario = ContactForm(request.POST)
@@ -77,7 +80,7 @@ def listHome(request: HttpRequest):
             motorista_id = request.POST.get('motorista_id')
             motorista = get_object_or_404(MotoristaModel, id=motorista_id)
             formeditar = ContactForm(instance=motorista)
-            abrir_modal_editar = True
+            abrir_modal_editar_motorista = True
             motorista_editando_id = motorista_id
         elif 'form4_submit' in request.POST:
             motorista_id = request.POST.get('motorista_id')
@@ -89,10 +92,32 @@ def listHome(request: HttpRequest):
                 return redirect('listacontrole:home')
             else:
                 formeditar = formulario
-                abrir_modal_editar = True
+                abrir_modal_editar_motorista = True
                 motorista_editando_id = motorista_id
                 messages.error(request, 'Erro ao editar o motorista!')
 
+        elif 'editar_veiculo' in request.POST:
+            veiculo_id = request.POST.get('veiculo_id')
+            veiculo = get_object_or_404(VeiculoModels, id=veiculo_id)
+            formeditarveiculo = VeiculoForm(instance=veiculo)
+            abrir_modal_editar_veiculo = True
+            veiculo_editando_id = veiculo_id
+            print(formeditarveiculo)
+        elif 'form5_submit' in request.POST:
+            veiculo_id = request.POST.get('veiculo_id')
+            veiculo = get_object_or_404(VeiculoModels, id=veiculo_id)
+            formulario = VeiculoForm(request.POST, instance=veiculo)
+            print(formulario)
+            if formulario.is_valid():
+                formulario.save()
+                messages.success(request, 'Veículo editado com sucesso!')
+                return redirect('listacontrole:home')
+
+            else:
+                formeditarveiculo = formulario
+                abrir_modal_editar_veiculo = True
+                veiculo_editando_id = veiculo_id
+                messages.error(request, 'Erro ao editar o veículo!')
 
     motoristas = MotoristaModel.objects.all()
     veiculos = VeiculoModels.objects.all()
@@ -122,7 +147,10 @@ def listHome(request: HttpRequest):
         'formveiculo': VeiculoForm(),
         'formuso': UsoForm(),
         'formeditar': formeditar,
-        'abrir_modal_editar': abrir_modal_editar,
+        'abrir_modal_editar_motorista': abrir_modal_editar_motorista,
+        'abrir_modal_editar_veiculo': abrir_modal_editar_veiculo,
         'motorista_editando_id': motorista_editando_id,
+        'veiculo_editando_id': veiculo_editando_id,
+        'formeditarveiculo': formeditarveiculo,
     }
     return render(request, 'listacontrole/home.html', context)
