@@ -8,3 +8,5 @@ __pycache__/
 
 # Ignorar o ambiente virtual Python, se estiver usando
 venv/
+
+.vscode/
