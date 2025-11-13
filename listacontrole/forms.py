@@ -1,5 +1,5 @@
 from django import forms
-from .models import UsoModel, VeiculoModels, MotoristaModel
+from .models import UsoModel, VeiculoModels, MotoristaModel, AgendamentoVeiculo
 from datetime import date, time, datetime
 
 class ContactForm(forms.ModelForm):
@@ -16,10 +16,6 @@ class UsoForm(forms.ModelForm):
     class Meta:
         model = UsoModel
         fields = ['motorista', 'veiculo', 'data_uso', 'horario_inicio', 'km_inicial', 'destino']
-        # widgets = {
-        #     'data_uso': forms.DateInput(attrs={'type': 'date'}),
-        #     'horario_inicio': forms.TimeInput(attrs={'type': 'time'}),
-        # }
         
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -34,3 +30,19 @@ class UsoForm(forms.ModelForm):
         if not self.instance.pk:
             self.fields['data_uso'].initial = date.today().strftime('%Y-%m-%d')
             self.fields['horario_inicio'].initial = datetime.now().time().strftime('%H:%M')
+
+class AgendamentoForm(forms.ModelForm):
+    class Meta:
+        model = AgendamentoVeiculo
+        fields = ['motorista', 'veiculo', 'data_uso', 'horario_uso', 'destino']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields('motorista').queryset = MotoristaModel.objects.filter()
+        self.fields('veiculo').queryset = VeiculoModels.objects.filter()
+        self.fields['data_uso'].widget = forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d')
+        self.fields['horario_uso'].widget = forms.TimeInput(attrs={'type': 'time'}, format='%H:%M')
+        if not self.instance.pk:
+            self.fields['data_uso'].initial = date.today().strftime('%Y-%m-%d')
+            self.fields['horario_uso'].initial = datetime.now().time().strftime('%H:%M')
+

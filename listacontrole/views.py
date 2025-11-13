@@ -49,27 +49,27 @@ def listHome(request: HttpRequest):
         elif 'finalizar_uso_submit' in request.POST:
             uso_id = request.POST.get('uso_id')
             km_final = request.POST.get('km_final')
+            km_inicial = request.POST.get('km_inicial')
             
             try:
                 uso = get_object_or_404(UsoModel, id=uso_id)
-                
-                if km_final and int(km_final) >= uso.km_inicial:
+                if uso.km_final:
                     uso.km_final = int(km_final)
-                    uso.horario_final = datetime.datetime.now().time()
-                    uso.save()
-                    
-                    uso.veiculo.status = True
-                    uso.veiculo.save()
-                    
-                    messages.success(request, f'Uso do veículo {uso.veiculo.nome} finalizado com sucesso!')
                 else:
-                    messages.error(request, 'KM final deve ser maior ou igual ao KM inicial!')
+                    uso.km_final = int(uso.km_inicial)
+                uso.horario_final = datetime.datetime.now().time()
+                uso.save()
+                
+                uso.veiculo.status = True
+                uso.veiculo.save()
+                
+                messages.success(request, f'Uso do veículo {uso.veiculo.nome} finalizado com sucesso!')
                     
             except (ValueError, TypeError, None):
                 messages.error(request, 'KM final deve ser um número válido!')
             except Exception as e:
                 messages.error(request, f'Erro ao finalizar uso: {str(e)}')
-                
+
             return redirect('listacontrole:home')
         elif 'excluir_motorista' in request.POST:
             motorista_id = request.POST.get('motorista_id')

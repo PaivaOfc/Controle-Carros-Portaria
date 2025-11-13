@@ -43,3 +43,13 @@ class UsoModel(models.Model):
     
     def __str__(self):
         return f"{self.motorista.nome} - {self.veiculo.nome}"
+
+class AgendamentoVeiculo(models.Model):
+    motorista = (models.ForeignKey(MotoristaModel, on_delete=models.CASCADE))
+    veiculo = (models.ForeignKey(VeiculoModels, on_delete=models.CASCADE))
+    data_uso = models.DateField()
+    horario_uso = models.TimeField()
+    destino = models.CharField()
+
+    def __str__(self):
+        return f"{self.motorista.nome} - {self.veiculo.nome}"
