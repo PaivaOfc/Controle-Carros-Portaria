@@ -3,6 +3,8 @@ from .forms import ContactForm, VeiculoForm, UsoForm
 from django.http import HttpRequest
 from django.contrib import messages
 from .models import MotoristaModel, VeiculoModels, UsoModel
+from datetime import date, datetime, time
+from django.utils import timezone
 import datetime
 
 def listHome(request: HttpRequest):
@@ -26,7 +28,8 @@ def listHome(request: HttpRequest):
                 messages.success(request, 'Veículo cadastrado com sucesso!')
                 return redirect('listacontrole:home')
         elif 'form3_submit' in request.POST:
-            formulario = UsoForm(request.POST)
+            horario_inicio = timezone.now()
+            formulario = UsoForm(request.POST, horario_inicio.strftime('%H:%M'))
             if formulario.is_valid():
                 motorista_selecionado = formulario.cleaned_data.get('motorista')
                 veiculo_selecionado = formulario.cleaned_data.get('veiculo')

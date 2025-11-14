@@ -17,7 +17,7 @@ class UsoForm(forms.ModelForm):
         model = UsoModel
         fields = ['motorista', 'veiculo', 'data_uso', 'horario_inicio', 'km_inicial', 'destino']
         
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, horario=None, **kwargs):
         super().__init__(*args, **kwargs)
         motoristas_em_uso_ids = UsoModel.objects.filter(
             horario_final__isnull=True
@@ -25,11 +25,14 @@ class UsoForm(forms.ModelForm):
         self.fields['motorista'].queryset = MotoristaModel.objects.exclude(id__in=motoristas_em_uso_ids)
         self.fields['veiculo'].queryset = VeiculoModels.objects.filter(status=True)
         self.fields['data_uso'].widget = forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d')
-        self.fields['horario_inicio'].widget = forms.TimeInput(attrs={'type': 'time'}, format='%H:%M')
+        self.fields['horario_inicio'].widget = forms.TimeInput(attrs={'type': 'time'})
+        print(self.fields['horario_inicio'].widget)
+        if horario:
+            self.fields['horario_inicio'].initial = horario
 
-        if not self.instance.pk:
-            self.fields['data_uso'].initial = date.today().strftime('%Y-%m-%d')
-            self.fields['horario_inicio'].initial = datetime.now().time().strftime('%H:%M')
+        # if not self.instance.pk:
+        #     self.fields['data_uso'].initial = date.today().strftime('%Y-%m-%d')
+        #     # self.fields['horario_inicio'].initial = datetime.now().time().strftime('%H:%M')
 
 class AgendamentoForm(forms.ModelForm):
     class Meta:
