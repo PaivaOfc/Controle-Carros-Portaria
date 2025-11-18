@@ -28,8 +28,8 @@ def listHome(request: HttpRequest):
                 messages.success(request, 'Veículo cadastrado com sucesso!')
                 return redirect('listacontrole:home')
         elif 'form3_submit' in request.POST:
-            horario_inicio = timezone.now()
-            formulario = UsoForm(request.POST, horario_inicio.strftime('%H:%M'))
+            horario_inicio = datetime.datetime.now().time().strftime('%H:%M')
+            formulario = UsoForm(request.POST, horario_inicio)
             if formulario.is_valid():
                 motorista_selecionado = formulario.cleaned_data.get('motorista')
                 veiculo_selecionado = formulario.cleaned_data.get('veiculo')
@@ -58,9 +58,11 @@ def listHome(request: HttpRequest):
                 uso = get_object_or_404(UsoModel, id=uso_id)
                 if uso.km_final:
                     uso.km_final = int(km_final)
+                elif not uso.km_inicial:
+                    uso.km_final = 0
                 else:
                     uso.km_final = int(uso.km_inicial)
-                uso.horario_final = datetime.datetime.now().time()
+                uso.horario_final = datetime.datetime.now().time().strftime('%H:%M')
                 uso.save()
                 
                 uso.veiculo.status = True
@@ -157,3 +159,18 @@ def listHome(request: HttpRequest):
         'formeditarveiculo': formeditarveiculo,
     }
     return render(request, 'listacontrole/home.html', context)
+
+def relatorio(request: HttpRequest):
+
+    motoristas = MotoristaModel.objects.all()
+    veiculos = VeiculoModels.objects.all()
+    usos = UsoModel.objects.all().order_by('-data_uso', '-horario_inicio')
+
+    context = {
+        'motoristas': motoristas,
+        'veiculos': veiculos,
+        'usos': usos,
+    }
+
+
+    return render(request, 'listacontrole/relatorio.html', context)

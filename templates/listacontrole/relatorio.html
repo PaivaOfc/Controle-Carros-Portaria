@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório | DOPTEX</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
+</head>
+<body>
+    <nav class="bg-[#2563EB] p-3 w-[100%]">
+        <div class="flex items-center justify-between">
+            <button onclick="window.history.back()" class="bg-blue-500 text-white py-2 px-5 flex justify-center items-center gap-2 rounded-xl hover:bg-blue-700 hover:cursor-pointer">
+                <i class="fa fa-angle-left"></i>Voltar
+            </button>
+            <img src="{% static 'img/d.svg' %}" class="w-10 h-10 mx-auto shadow-lg" alt="Logo Doptex">
+            <div class="w-32"></div>
+        </div>
+    </nav>
+
+    <body>
+
+        <div class="p-10">
+            <table class="table-auto w-full rounded-xl overflow-hidden shadow-lg border-1 outline-1 outline-offset-1 outline-blue-500 border-solid bg-white">
+                <thead>
+                    <tr>
+                        <th colspan="12" class="text-xl font-bold mb-4 p-4">Lista de Usos de Veiculos</th>
+                    </tr>
+                    <tr class="outline-1 outline-offset-1 outline-blue-500">
+                        <th class="py-2">Data</th>
+                        <th class="py-2">Horario Saida</th>
+                        <th class="py-2">Horario Chegada</th>
+                        <th class="py-2">Veiculo</th>
+                        <th class="py-2">Motorista</th>
+                        <th class="py-2">Destino</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in usos %}
+                    <tr class="text-center">
+                        <td class="py-2">{{item.data_uso}}</td>
+                        <td class="py-2">{{item.horario_inicio}}</td>
+                        <td class="py-2">{% if item.horario_final %}{{item.horario_final}}{% else %}Ainda em Uso{% endif %}</td>
+                        <td class="py-2">{{item.veiculo}}</td>
+                        <td class="py-2">{{item.motorista}}</td>
+                        <td class="py-2">{{item.destino}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </body>
+</body>
+</html>

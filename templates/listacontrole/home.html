@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Controle de veículos</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
@@ -44,10 +44,18 @@
                     <!--<div
                         class="h-10 w-40 bg-[#1D4ED8] rounded-lg flex items-center justify-center cursor-pointer gap-2 group hover:bg-[#00185B] ">
                       </div> -->
-                    <button command="show-modal" commandfor="ListaMotoristas"
-                        onclick="document.querySelector('#formmotorista').reset()"
-                        class="h-10 w-40 bg-[#1D4ED8] rounded-lg flex items-center justify-center cursor-pointer text-white gap-2 hover:bg-[#00185B] hover:font-bold">
-                        <i class="fa fa-user text-white" aria-hidden="true"></i>Motoristas</button>
+                    <div class="flex justify-end gap-4">
+                        <button 
+                            onclick="location.href='{% url 'listacontrole:relatorio' %}'"
+                            class="h-10 w-40 bg-transparent outline-2 outline-[#16A34A] rounded-lg flex items-center justify-center cursor-pointer text-white gap-1 hover:bg-[#16A34A] hover:font-bold"><i
+                                class="fa fa-clock-o text-white" aria-hidden="true"></i>Relatório de Uso</button>
+                    </div>
+                    <div class="flex justify-end gap-4">
+                        <button command="show-modal" commandfor="ListaMotoristas"
+                            onclick="document.querySelector('#formmotorista').reset()"
+                            class="h-10 w-40 bg-[#1D4ED8] rounded-lg flex items-center justify-center cursor-pointer text-white gap-2 hover:bg-[#00185B] hover:font-bold">
+                            <i class="fa fa-user text-white" aria-hidden="true"></i>Motoristas</button>
+                    </div>
                     <div class="flex justify-end gap-4">
                         <button command="show-modal" commandfor="CadastroVeiculos"
                             onclick="document.querySelector('#formveiculo').reset()"
@@ -295,7 +303,7 @@
                                         <button type="submit" name="form2_submit"
                                             class="w-full justify-end rounded-md bg-[#2563EB] px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-blue-500">Cadastrar</button>
                                         <button type="button" command="show-modal" commandfor="ListaVeiculos"
-                                            class="bg-red-600 rounded-md w-full  text-center py-2 px-2 text-sm text-white gap-1 shadow-xs w-full text-center inset-ring inset-ring-gray-300 hover:bg-red-500">Excluir/Editar
+                                            class="bg-red-600 rounded-md py-2 px-2 text-sm text-white gap-1 shadow-xs w-full text-center inset-ring inset-ring-gray-300 hover:bg-red-500">Excluir/Editar
                                             veículo</button>
                                     </form>
                                 </div>

@@ -5,4 +5,5 @@ app_name = 'listacontrole'
 
 urlpatterns = [
     path('', views.listHome, name='home'),
+    path('relatorio/', views.relatorio, name='relatorio'),
 ]

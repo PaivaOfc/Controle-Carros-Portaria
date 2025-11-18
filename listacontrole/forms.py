@@ -1,6 +1,8 @@
 from django import forms
 from .models import UsoModel, VeiculoModels, MotoristaModel, AgendamentoVeiculo
-from datetime import date, time, datetime
+from datetime import date, datetime, time
+from django.utils import timezone
+import datetime
 
 class ContactForm(forms.ModelForm):
     class Meta:
@@ -26,13 +28,10 @@ class UsoForm(forms.ModelForm):
         self.fields['veiculo'].queryset = VeiculoModels.objects.filter(status=True)
         self.fields['data_uso'].widget = forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d')
         self.fields['horario_inicio'].widget = forms.TimeInput(attrs={'type': 'time'})
-        print(self.fields['horario_inicio'].widget)
-        if horario:
-            self.fields['horario_inicio'].initial = horario
-
-        # if not self.instance.pk:
-        #     self.fields['data_uso'].initial = date.today().strftime('%Y-%m-%d')
-        #     # self.fields['horario_inicio'].initial = datetime.now().time().strftime('%H:%M')
+        if not self.instance.pk:
+            agora = datetime.datetime.now()
+            self.fields['data_uso'].initial = agora.date().strftime('%Y-%m-%d')
+            self.fields['horario_inicio'].initial = datetime.datetime.now().time().strftime('%H:%M')
 
 class AgendamentoForm(forms.ModelForm):
     class Meta:
