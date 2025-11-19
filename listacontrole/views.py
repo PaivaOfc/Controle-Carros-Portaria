@@ -76,6 +76,11 @@ def listHome(request: HttpRequest):
                 messages.error(request, f'Erro ao finalizar uso: {str(e)}')
 
             return redirect('listacontrole:home')
+        elif 'InfoRelatorio' in request.POST:
+            uso_id = request.POST.get('uso_id')
+            uso = get_object_or_404(UsoModel, id=uso_id)
+            
+            abrir_modal_info_relatorio = True
         elif 'excluir_motorista' in request.POST:
             motorista_id = request.POST.get('motorista_id')
             MotoristaModel.objects.filter(id=motorista_id).delete()
