@@ -59,7 +59,7 @@ def listHome(request: HttpRequest):
                 if uso.km_final:
                     uso.km_final = int(km_final)
                 elif not uso.km_inicial:
-                    uso.km_final = 0
+                    uso.km_final = None
                 else:
                     uso.km_final = int(uso.km_inicial)
                 uso.horario_final = datetime.datetime.now().time().strftime('%H:%M')
@@ -76,11 +76,6 @@ def listHome(request: HttpRequest):
                 messages.error(request, f'Erro ao finalizar uso: {str(e)}')
 
             return redirect('listacontrole:home')
-        elif 'InfoRelatorio' in request.POST:
-            uso_id = request.POST.get('uso_id')
-            uso = get_object_or_404(UsoModel, id=uso_id)
-            
-            abrir_modal_info_relatorio = True
         elif 'excluir_motorista' in request.POST:
             motorista_id = request.POST.get('motorista_id')
             MotoristaModel.objects.filter(id=motorista_id).delete()
@@ -167,6 +162,16 @@ def listHome(request: HttpRequest):
 
 def relatorio(request: HttpRequest):
 
+    abrir_modal_info_relatorio = False
+    uso_selecionado = None
+
+    if request.method == 'POST':
+        if 'InfoRelatorio' in request.POST:
+                uso_id = request.POST.get('uso_id')
+                uso_selecionado = get_object_or_404(UsoModel, id=uso_id)
+                print('Views')
+                abrir_modal_info_relatorio = True
+
     motoristas = MotoristaModel.objects.all()
     veiculos = VeiculoModels.objects.all()
     usos = UsoModel.objects.all().order_by('-data_uso', '-horario_inicio')
@@ -175,6 +180,8 @@ def relatorio(request: HttpRequest):
         'motoristas': motoristas,
         'veiculos': veiculos,
         'usos': usos,
+        'abrir_modal_info_relatorio': abrir_modal_info_relatorio,
+        'uso_selecionado': uso_selecionado,
     }
 
 

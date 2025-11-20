@@ -1,6 +1,9 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
+
+{% load crispy_forms_tags %}
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,14 +12,15 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/logo.png' %}">
 </head>
 <body class="bg-gray-200 min-h-screen">
     <nav class="bg-[#2563EB] p-3 w-[100%]">
         <div class="flex items-center justify-between">
-            <button onclick="window.history.back()" class="bg-blue-500 text-white py-2 px-5 flex justify-center items-center gap-2 rounded-xl hover:bg-blue-700 hover:cursor-pointer">
+            <button onclick="location.href='{% url 'listacontrole:home' %}'" class="bg-blue-500 text-white py-2 px-5 flex justify-center items-center gap-2 rounded-xl hover:bg-blue-700 hover:cursor-pointer">
                 <i class="fa fa-angle-left"></i>Voltar
             </button>
-            <img src="{% static 'img/d.svg' %}" class="w-10 h-10 mx-auto shadow-lg" alt="Logo Doptex">
+            <img src="{% static 'img/logo.png' %}" class="w-15 h-15 mx-auto " alt="Logo Doptex">
             <div class="w-32"></div>
         </div>
     </nav>
@@ -46,7 +50,7 @@
                         <td class="py-2">{{item.veiculo}}</td>
                         <td class="py-2">{{item.motorista}}</td>
                         <td class="py-2">
-                            <form action="post" class="inline"></form>
+                            <form action="{% url 'listacontrole:relatorio' %}" method="post" class="inline">
                                 {% csrf_token %}
                                 <input type="hidden" name="uso_id" value="{{item.id}}">
                                 <button type="submit" name="InfoRelatorio" class="py-1 px-3 bg-[#2563EB] rounded-sm text-center cursor-pointer hover:bg-[#00185B]"><i class="fa fa-info text-white"></i></button>
@@ -60,88 +64,89 @@
     </body>
 
     <!-- Lista de veiculos-->
-    <el-dialog>
-        <dialog id="InfoRelatorio" aria-labelledby="dialog-title"
-            class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
-            <el-dialog-backdrop
-                class="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
-
-            <div tabindex="0"
-                class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
-                <el-dialog-panel
-                    class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-5xl data-closed:sm:translate-y-0 data-closed:sm:scale-95">
-                    <div class="bg-white px-6 pt-5 pb-4 sm:p-8 sm:pb-6">
-                        <div class="sm:flex sm:items-start">
-                            <div
-                                class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-blue-100 sm:mx-0 sm:size-10">
-                                <i class="fa fa-users text-[#2563EB]" aria-hidden="true"></i>
-                            </div>
-                            <div class="mt-2 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-                                <h3 id="dialog-title" class="text-base font-semibold text-gray-900 mb-3">Lista de
-                                    Motoristas
-                                </h3>
-                                <div class="mt-2 max-h-96 overflow-y-auto">
-                                    <table class="min-w-full divide-y divide-gray-200">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col"
-                                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                    Nome
-                                                </th>
-                                                <th scope="col"
-                                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                    RE
-                                                </th>
-                                                <th scope="col"
-                                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                    Ações
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="bg-white divide-y divide-gray-200">
-                                            {% for motorista in motoristas %}
-                                            <tr>
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                    {{ motorista.nome }}
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                    {{ motorista.re }}
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                    <form method="post" style="display: inline;">
-                                                        {% csrf_token %}
-                                                        <input type="hidden" name="motorista_id"
-                                                            value="{{ motorista.id }}">
-                                                        <button type="submit" name="editar_motorista"
-                                                            class="text-indigo-600 hover:text-indigo-900 cursor-pointer">Editar</button>
-                                                    </form>
-                                                    <form method="post" style="display: inline;">
-                                                        {% csrf_token %}
-                                                        <input type="hidden" name="motorista_id"
-                                                            value="{{ motorista.id }}">
-                                                        <button type="submit" name="excluir_motorista"
-                                                            class="text-red-600 hover:text-red-900 cursor-pointer">Excluir</button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
+    <dialog id="InfoRelatorio" class="fixed inset-0 z-50 w-full h-full bg-transparent backdrop:bg-black/50 transition-opacity duration-500" aria-labelledby="dialog-title" {% if abrir_modal_info_relatorio %}open{% endif %}>
+        <el-dialog-backdrop
+            class="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
+        
+        <div tabindex="0"
+            class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
+            <el-dialog-panel
+                class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-2xl data-closed:sm:translate-y-0 data-closed:sm:scale-95">
+                <div class="bg-white px-6 pt-5 pb-4 sm:p-8 sm:pb-6">
+                    <div class="sm:flex sm:items-start">
+                        <div
+                            class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full mt-2 bg-blue-100 sm:mx-0 sm:size-10">
+                            <i class="fa fa-info-circle text-[#2563EB]" aria-hidden="true"></i>
+                        </div>
+                        <div class="mt-2 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                            <h3 id="dialog-title" class="text-base font-semibold text-gray-900 mb-4">Informações do Uso</h3>
+                            
+                            {% if uso_selecionado %}
+                            <div class="mt-2 space-y-3">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-500">Data de Uso</p>
+                                        <p class="text-base text-gray-900">{{ uso_selecionado.data_uso }}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-500">Veículo</p>
+                                        <p class="text-base text-gray-900">{{ uso_selecionado.veiculo }}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-500">Horário de Saída</p>
+                                        <p class="text-base text-gray-900">{{ uso_selecionado.horario_inicio }}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-500">Horário de Chegada</p>
+                                        <p class="text-base text-gray-900">
+                                            {% if uso_selecionado.horario_final %}
+                                                {{ uso_selecionado.horario_final }}
+                                            {% else %}
+                                                <span class="text-orange-600">Ainda em Uso</span>
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-500">KM Saida</p>
+                                        {% if uso_selecionado.km_inicial %}
+                                            <p class="text-base text-gray-900">{{ uso_selecionado.km_inicial }}</p>
+                                        {%else%}
+                                            <p class="text-base text-gray-900">Não informado</p>
+                                        {% endif %}
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-500">KM Chegada</p>
+                                        {% if uso_selecionado.km_final %}
+                                            <p class="text-base text-gray-900">{{ uso_selecionado.km_final }}</p>
+                                        {%else%}
+                                            <p class="text-base text-gray-900">Não informado</p>
+                                        {% endif %}
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-500">Motorista</p>
+                                        <p class="text-base text-gray-900">{{ uso_selecionado.motorista }}</p>
+                                    </div>
+                                    {% if uso_selecionado.destino %}
+                                    <div class="col-span-2">
+                                        <p class="text-sm font-medium text-gray-500">Destino</p>
+                                        <p class="text-base text-gray-900">{{ uso_selecionado.destino }}</p>
+                                    </div>
+                                    {% endif %}
                                 </div>
                             </div>
+                            {% else %}
+                            <p class="text-gray-500">Nenhuma informação disponível.</p>
+                            {% endif %}
                         </div>
                     </div>
-                    <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 gap-1">
-                        <button type="button" command="show-modal" commandfor="CadastroMotorista"
-                            onclick="document.querySelector('form').reset()"
-                            class="inline-flex w-full justify-center rounded-md cursor-pointer bg-[#2563EB] px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-blue-500 sm:ml-3 sm:w-auto">Cadastrar</button>
-                        <button type="button" command="close" commandfor="ListaMotoristas"
-                            class="mt-3 inline-flex w-full justify-center rounded-md cursor-pointer bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Fechar</button>
-                    </div>
-                </el-dialog-panel>
-            </div>
-        </dialog>
-    </el-dialog>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 gap-1">
+                    <button type="button" command="close" commandfor="InfoRelatorio"
+                        class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto cursor-pointer">Fechar</button>
+                </div>
+            </el-dialog-panel>
+        </div>
+    </dialog>
 </body>
 
 
